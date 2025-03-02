@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DPC Distribution & Logistics</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .drag-drop {
+            border: 2px dashed #070707;
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        .drag-drop:hover {
+            background-color: #f7fafc;
+        }
+                /* Background Image */
+                body {
+            background: url('/img/bg.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        /* Apply blur effect */
+        .container {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.3); /* Optional: Light background for readability */
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        #contactForm {
+            background: rgba(255, 255, 255, 0.8); /* Slightly opaque for better readability */
+            padding: 50px;
+            border-radius: 35px;
+            box-shadow: 0 10px 30px rgba(0, 255, 76, 0.3); /* Custom shadow */
+        }
+
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="max-w-3xl mx-auto mt-10 p-6 bg-white rounded-lg shadow-xl">
+        <h1 class="text-2xl font-bold mb-4">Contact DPC Distribution & Logistics</h1>
+        <form id="contactForm" action="php/upload.php" method="POST" enctype="multipart/form-data">
+            <!-- Personal Details -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold">1. Personal Details</h2>
+                <p class="text-gray-600 mb-2">Subtitle or short description can be set here.</p>
+                <label for="fullName" class="block font-medium">Enter Full Name</label>
+                <input type="text" id="fullName" name="fullName" class="w-full border rounded p-2 mb-4" required>
+
+                <label for="email" class="block font-medium">Enter VALID EMAIL</label>
+                <input type="email" id="email" name="email" class="w-full border rounded p-2 mb-4" required>
+
+                <label for="phone" class="block font-medium">Enter Phone e.g.: +36391234</label>
+                <input type="tel" id="phone" name="phone" class="w-full border rounded p-2" pattern="\+?[0-9]+" required>
+            </div>
+
+            <!-- Message -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold">2. Message</h2>
+                <p class="text-gray-600 mb-2">Subtitle or short description can be set here.</p>
+                <label for="message" class="block font-medium">Enter Message</label>
+                <textarea id="message" name="message" class="w-full border rounded p-2" rows="5" required></textarea>
+            </div>
+
+            <!-- Attachment -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold">3. Attachment</h2>
+                <p class="text-gray-600 mb-2">Only jpg, png, pdf, mov, MP4.</p>
+                <div class="drag-drop" id="dropZone">
+                    Drag & Drop your files or <label for="attachment" class="text-blue-600 cursor-pointer">Browse</label>
+                    <input type="file" id="attachment" name="attachment" class="hidden" accept=".jpg,.png,.pdf,.mov,.mp4">
+                </div>
+                <p id="fileName" class="mt-2 text-gray-600"></p>
+            </div>
+
+            <!-- Submission -->
+            <div class="mb-6">
+                <h2 class="text-xl font-semibold">4. Submission</h2>
+                <p class="text-gray-600 mb-2">Please accept the terms and conditions below.</p>
+                <label>
+                    <input type="checkbox" id="terms" name="terms" required>
+                    Accept Terms and Conditions.
+                </label>
+            </div>
+
+            <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded shadow hover:bg-blue-700">Submit Form</button>
+        </form>
+    </div>
+
+    <script>
+        const attachmentInput = document.getElementById('attachment');
+        const fileNameDisplay = document.getElementById('fileName');
+
+        attachmentInput.addEventListener('change', () => {
+            fileNameDisplay.textContent = attachmentInput.files[0]?.name || 'No file chosen';
+        });
+
+        const dropZone = document.getElementById('dropZone');
+        dropZone.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dropZone.style.backgroundColor = '#f0f8ff';
+        });
+
+        dropZone.addEventListener('dragleave', () => {
+            dropZone.style.backgroundColor = 'transparent';
+        });
+
+        dropZone.addEventListener('drop', (e) => {
+            e.preventDefault();
+            const file = e.dataTransfer.files[0];
+            attachmentInput.files = e.dataTransfer.files;
+            fileNameDisplay.textContent = file?.name || 'No file chosen';
+            dropZone.style.backgroundColor = 'transparent';
+        });
+    </script>
+</body>
+</html>
